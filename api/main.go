@@ -6,12 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RegisterRequest struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 func main() {
 	db, err := Database()
 	if err != nil {
@@ -22,24 +16,8 @@ func main() {
 
 	gin.SetMode(gin.DebugMode)
 	router := gin.Default()
-	router.GET("/api/hello", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello, World!",
-		})
-	})
-	router.POST("/register", func(c *gin.Context) {
-		var request RegisterRequest
-		if err := c.ShouldBindJSON(&request); err != nil {
-			c.JSON(400, gin.H{
-				"error": "Invalid request format",
-			})
-			return
-		}
 
-		fmt.Printf("Received registration: %+v\n", request)
+	router.POST("/register", registerHandler(db))
 
-		c.JSON(200, gin.H{
-			"message": "register"})
-	})
 	router.Run(":8080")
 }
