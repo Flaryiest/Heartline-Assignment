@@ -27,6 +27,7 @@ const initialMessages: Record<string, ChatMessage[]> = {
       conversationId: 'global',
       text: 'Welcome to the global chat room!',
       sender: 'System',
+      senderEmail: 'system@heartline.com',
       timestamp: Date.now() - 60000 * 5,
     },
     {
@@ -34,6 +35,7 @@ const initialMessages: Record<string, ChatMessage[]> = {
       conversationId: 'global',
       text: 'Hey everyone! How are you all doing today?',
       sender: 'Sarah',
+      senderEmail: 'sarah@example.com',
       timestamp: Date.now() - 60000 * 3,
     },
     {
@@ -41,6 +43,7 @@ const initialMessages: Record<string, ChatMessage[]> = {
       conversationId: 'global',
       text: 'I just joined HeartLine. This looks awesome!',
       sender: 'Michael',
+      senderEmail: 'michael@example.com',
       timestamp: Date.now() - 60000,
     },
   ],
@@ -50,6 +53,7 @@ const initialMessages: Record<string, ChatMessage[]> = {
       conversationId: 'support',
       text: 'Welcome to the support channel!',
       sender: 'Support',
+      senderEmail: 'support@heartline.com',
       timestamp: Date.now() - 60000 * 30,
     },
     {
@@ -57,6 +61,7 @@ const initialMessages: Record<string, ChatMessage[]> = {
       conversationId: 'support',
       text: 'How can we help you today?',
       sender: 'Support',
+      senderEmail: 'support@heartline.com',
       timestamp: Date.now() - 60000 * 25,
     },
   ]
@@ -71,12 +76,13 @@ export const useChatStore = create<ChatState>()(
       isLoading: false,
       error: null,
 
-      sendMessage: (conversationId, text, sender) => {
+      sendMessage: (conversationId, text, sender, senderEmail) => {
         const newMessage: ChatMessage = {
           id: Date.now().toString(),
           conversationId,
           text,
           sender,
+          senderEmail,
           timestamp: Date.now(),
         };
 

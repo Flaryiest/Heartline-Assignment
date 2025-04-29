@@ -53,7 +53,7 @@ export const ChatRoomScreen = () => {
           onPress={handleBack}
           className="ml-4"
         >
-          <Text className="text-blue-500 mr-2">Back</Text>
+          <Text className="text-blue-500 mr-8">Back</Text>
         </TouchableOpacity>
       ),
     });
@@ -75,7 +75,7 @@ export const ChatRoomScreen = () => {
           data={messages}
           keyExtractor={(item: ChatMessage) => item.id}
           renderItem={({ item }) => {
-            const isCurrentUser = item.sender === user?.name;
+            const isCurrentUser = item.senderEmail === user?.email;
             return (
               <View 
                 className={`mb-2 rounded-lg p-3 ${
@@ -118,10 +118,10 @@ export const ChatRoomScreen = () => {
           onChangeText={setNewMessage}
         />
         <TouchableOpacity
-          className="ml-2 h-10 w-10 items-center justify-center rounded-full bg-blue-500"
+          className="ml-2 h-10 w-10 items-center justify-center rounded-full bg-blue-500 flex items-center justify-center"
           onPress={handleSendMessage}
         >
-          <Text className="text-xl font-bold text-white">→</Text>
+          <Text className="text-white" style={{ fontSize: 20, fontWeight: 'bold', lineHeight: 22, marginTop: -2 }}>→</Text>
         </TouchableOpacity>
       </View>
       

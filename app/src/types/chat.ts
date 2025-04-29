@@ -2,6 +2,7 @@ export interface ChatMessage {
   id: string;
   text: string;
   sender: string;
+  senderEmail: string; // New property for email
   timestamp: number;
   conversationId: string;
 }
@@ -20,7 +21,7 @@ export interface ChatState {
   activeConversationId: string | null;
   isLoading: boolean;
   error: string | null;
-  sendMessage: (conversationId: string, text: string, sender: string) => void;
+  sendMessage: (conversationId: string, text: string, sender: string, senderEmail: string) => void;
   fetchMessages: (conversationId: string) => Promise<void>;
   fetchConversations: () => Promise<void>;
   createConversation: (name: string, participants: string[]) => void;

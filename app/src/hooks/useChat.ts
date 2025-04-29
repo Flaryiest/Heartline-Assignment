@@ -36,7 +36,7 @@ export const useChat = (conversationId?: string) => {
     const chatId = targetConversationId || activeConversationId;
     if (!chatId) return;
     
-    sendMessage(chatId, text, user.name);
+    sendMessage(chatId, text, user.name, user.email);
   };
 
   const createNewConversation = (name: string) => {
