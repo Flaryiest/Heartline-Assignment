@@ -2,7 +2,7 @@ export interface ChatMessage {
   id: string;
   text: string;
   sender: string;
-  senderEmail: string; // New property for email
+  senderEmail: string;
   timestamp: number;
   conversationId: string;
 }
