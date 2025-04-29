@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,5 +30,42 @@ func registerHandler(db *sql.DB) gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
+	}
+}
+
+func loginHandler(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req LoginRequest
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+			return
+		}
+
+		log.Printf("Login attempt for email: %s", req.Email)
+
+		user, err := GetUserByEmail(db, req.Email)
+		if err != nil {
+			log.Printf("GetUserByEmail failed: %v", err)
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+			return
+		}
+
+		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+		if err != nil {
+			log.Printf("Password comparison failed: %v", err)
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+			return
+		}
+
+		log.Printf("Generating token for user ID: %d", user.ID)
+		token, err := GenerateToken(user.ID)
+		if err != nil {
+			log.Printf("Failed to generate token: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+			return
+		}
+
+		log.Printf("Token generated successfully for user ID: %d", user.ID)
+		c.JSON(http.StatusOK, gin.H{"token": token, "user_id": user.ID})
 	}
 }
