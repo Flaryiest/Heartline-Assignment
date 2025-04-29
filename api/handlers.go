@@ -67,7 +67,7 @@ func loginHandler(db *sql.DB) gin.HandlerFunc {
 		}
 
 		log.Printf("Token generated successfully for user ID: %d", user.ID)
-		c.JSON(http.StatusOK, gin.H{"token": token, "user_id": user.ID})
+		c.JSON(http.StatusOK, gin.H{"token": token})
 	}
 }
 

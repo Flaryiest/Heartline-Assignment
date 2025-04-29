@@ -10,3 +10,11 @@ cd app
 npm install
 npm start
 ```
+
+### Backend (Go)
+Install dependencies  
+
+```bash
+cd api
+modd
+```
