@@ -14,7 +14,7 @@ func main() {
 	}
 	defer db.Close()
 
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 
 	router.POST("/register", registerHandler(db))
@@ -26,6 +26,6 @@ func main() {
 		authorized.GET("/profile", getProfileHandler(db))
 		authorized.PATCH("/profile", updateProfileHandler(db))
 	}
-
+	fmt.Println("Successfully running")
 	router.Run(":8080")
 }

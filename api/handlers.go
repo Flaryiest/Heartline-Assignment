@@ -25,6 +25,7 @@ func registerHandler(db *sql.DB) gin.HandlerFunc {
 
 		err = Register(db, req.Name, req.Email, string(hashedPassword))
 		if err != nil {
+			log.Printf("Registration attempt failed: email %s already exists in the database", req.Email)
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Email already registered"})
 			return
 		}
