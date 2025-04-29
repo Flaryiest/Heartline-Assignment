@@ -69,3 +69,21 @@ func loginHandler(db *sql.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"token": token, "user_id": user.ID})
 	}
 }
+
+func getProfileHandler(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userID, _ := c.Get("userID")
+
+		user, err := GetUserByID(db, userID.(int))
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user profile"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"id":    user.ID,
+			"name":  user.Name,
+			"email": user.Email,
+		})
+	}
+}
