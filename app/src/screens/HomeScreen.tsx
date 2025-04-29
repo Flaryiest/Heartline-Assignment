@@ -10,7 +10,7 @@ export const HomeScreen = () => {
 
   return (
     <View className="flex-1 items-center justify-center bg-white p-4">
-      <Text className="mb-8 text-3xl font-bold">Welcome to HeartLine</Text>
+      <Text className="mb-8 text-3xl font-bold">Welcome</Text>
       
       <Text className="mb-6 text-center text-gray-600">
         Connect with others through our global chat platform

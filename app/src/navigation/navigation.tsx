@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
 
 import { ChatRoomScreen } from '~/screens/ChatRoomScreen';
+import { ChatListScreen } from '~/screens/ChatListScreen';
 import { HomeScreen } from '~/screens/HomeScreen';
 import { LoginScreen } from '~/screens/LoginScreen';
 import { RegisterScreen } from '~/screens/RegisterScreen';
@@ -17,7 +18,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator>
         {!isAuthenticated ? (
           <>
             <Stack.Screen 
@@ -35,16 +36,43 @@ export const Navigation = () => {
               component={LoginScreen}
               options={{ title: 'Sign In' }}
             />
+            <Stack.Screen 
+              name="ChatList" 
+              component={ChatListScreen}
+              options={{ headerBackVisible: false }}
+            />
+            <Stack.Screen 
+              name="ChatRoom" 
+              component={ChatRoomScreen}
+            />
           </>
         ) : (
-          <Stack.Screen 
-            name="ChatRoom" 
-            component={ChatRoomScreen}
-            options={{ 
-              title: 'Chat Room',
-              headerBackVisible: false,
-            }}
-          />
+          <>
+            <Stack.Screen 
+              name="ChatList" 
+              component={ChatListScreen}
+              options={{ headerBackVisible: false }}
+            />
+            <Stack.Screen 
+              name="ChatRoom" 
+              component={ChatRoomScreen}
+            />
+            <Stack.Screen 
+              name="Home" 
+              component={HomeScreen} 
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen 
+              name="Register" 
+              component={RegisterScreen}
+              options={{ title: 'Create Account' }}
+            />
+            <Stack.Screen 
+              name="Login" 
+              component={LoginScreen}
+              options={{ title: 'Sign In' }}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

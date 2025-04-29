@@ -4,6 +4,7 @@ import { useAuthStore } from '~/stores/authStore';
 export const useAuth = () => {
   const { 
     user,
+    users,
     isAuthenticated,
     isLoading,
     error,
@@ -13,7 +14,6 @@ export const useAuth = () => {
     clearError
   } = useAuthStore();
 
-
   useEffect(() => {
     return () => {
       clearError();
@@ -22,6 +22,7 @@ export const useAuth = () => {
 
   return {
     user,
+    users,
     isAuthenticated,
     isLoading,
     error,

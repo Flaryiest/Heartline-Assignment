@@ -5,7 +5,7 @@ A React Native mobile application for real-time chat and messaging.
 ## Project Structure
 
 - `/app` - React Native application (Expo)
-- `/api` - Go backend API
+- `/api` - Go backend API (not currently used)
 
 ## Getting Started
 
@@ -17,16 +17,22 @@ npm install
 npm start
 ```
 
-### Backend (Go)
-
-```bash
-cd api
-go mod download
-go run .
-```
-
 ## Features
 
-- User authentication (register/login)
-- Real-time chat functionality
-- Profile management
+- User authentication
+  - Register with name, email, and password
+  - Login with email and password
+  - Local user list for demonstration purposes
+- Messaging
+  - View list of conversations
+  - Create new conversations
+  - Send and receive messages
+  - Real-time chat interface
+
+## Tech Stack
+
+- React Native with Expo
+- Zustand for state management
+- React Navigation for routing between screens
+- NativeWind (Tailwind CSS for React Native)
+- AsyncStorage for local data persistence

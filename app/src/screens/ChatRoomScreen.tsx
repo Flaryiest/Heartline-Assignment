@@ -1,7 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { FlatList, Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import React, { useState, useLayoutEffect } from 'react';
+import { 
+  FlatList, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  View, 
+  ActivityIndicator 
+} from 'react-native';
 
 import { useChat } from '~/hooks/useChat';
 import { useAuth } from '~/hooks/useAuth';
@@ -10,9 +17,18 @@ import { ChatMessage } from '~/types/chat';
 
 export const ChatRoomScreen = () => {
   const navigation = useNavigation<RootStackScreenProps<'ChatRoom'>['navigation']>();
+  const route = useRoute<RootStackScreenProps<'ChatRoom'>['route']>();
+  const { conversationId } = route.params;
+  
   const [newMessage, setNewMessage] = useState('');
-  const { messages, isLoading, sendMessage } = useChat();
-  const { user, logout } = useAuth();
+  const { 
+    messages, 
+    activeConversation,
+    isLoading, 
+    sendMessage 
+  } = useChat(conversationId);
+  
+  const { user } = useAuth();
 
   const handleSendMessage = () => {
     if (newMessage.trim() === '') return;
@@ -25,21 +41,23 @@ export const ChatRoomScreen = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const handleLogout = () => {
-    logout();
-    navigation.navigate('Home');
+  const handleBack = () => {
+    navigation.navigate('ChatList');
   };
 
-  // Add a header button for logout
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={handleLogout} className="mr-4">
-          <Text className="text-blue-500">Logout</Text>
+      title: activeConversation?.name || 'Chat',
+      headerLeft: () => (
+        <TouchableOpacity 
+          onPress={handleBack}
+          className="ml-4"
+        >
+          <Text className="text-blue-500 mr-2">Back</Text>
         </TouchableOpacity>
       ),
     });
-  }, [navigation, handleLogout]);
+  }, [navigation, activeConversation]);
 
   if (isLoading) {
     return (
@@ -56,36 +74,39 @@ export const ChatRoomScreen = () => {
         <FlatList
           data={messages}
           keyExtractor={(item: ChatMessage) => item.id}
-          renderItem={({ item }) => (
-            <View 
-              className={`mb-2 rounded-lg p-3 ${
-                item.sender === user?.name || item.sender === 'You' ? 'bg-blue-500 ml-auto' : 'bg-gray-200'
-              }`}
-              style={{ maxWidth: '80%' }}
-            >
-              <Text 
-                className={`font-bold ${
-                  item.sender === user?.name || item.sender === 'You' ? 'text-white' : 'text-black'
+          renderItem={({ item }) => {
+            const isCurrentUser = item.sender === user?.name;
+            return (
+              <View 
+                className={`mb-2 rounded-lg p-3 ${
+                  isCurrentUser ? 'bg-blue-500 ml-auto' : 'bg-gray-200'
                 }`}
+                style={{ maxWidth: '80%' }}
               >
-                {item.sender}
-              </Text>
-              <Text 
-                className={`${
-                  item.sender === user?.name || item.sender === 'You' ? 'text-white' : 'text-black'
-                }`}
-              >
-                {item.text}
-              </Text>
-              <Text 
-                className={`text-xs text-right ${
-                  item.sender === user?.name || item.sender === 'You' ? 'text-white/70' : 'text-gray-500'
-                }`}
-              >
-                {formatTime(item.timestamp)}
-              </Text>
-            </View>
-          )}
+                <Text 
+                  className={`font-bold ${
+                    isCurrentUser ? 'text-white' : 'text-black'
+                  }`}
+                >
+                  {item.sender}
+                </Text>
+                <Text 
+                  className={`${
+                    isCurrentUser ? 'text-white' : 'text-black'
+                  }`}
+                >
+                  {item.text}
+                </Text>
+                <Text 
+                  className={`text-xs text-right ${
+                    isCurrentUser ? 'text-white/70' : 'text-gray-500'
+                  }`}
+                >
+                  {formatTime(item.timestamp)}
+                </Text>
+              </View>
+            );
+          }}
         />
       </View>
       

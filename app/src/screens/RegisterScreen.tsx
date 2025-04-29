@@ -26,8 +26,8 @@ export const RegisterScreen = () => {
       return;
     }
     
-    await register(name, email, password);
-    if (!error) {
+    const result = await register(name, email, password);
+    if (result) {
       Alert.alert('Success', 'Registration successful! Please login.', [
         { text: 'OK', onPress: () => navigation.navigate('Login') }
       ]);
