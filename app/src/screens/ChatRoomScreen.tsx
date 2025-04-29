@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { RootStackScreenProps } from '~/navigation/types';
+import { RootStackScreenProps } from '~/types/types';
 
 interface ChatMessage {
   id: string;

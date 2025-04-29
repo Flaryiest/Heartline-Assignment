@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { RootStackScreenProps } from '~/navigation/types';
+import { RootStackScreenProps } from '~/types/types';
 
 export const LoginScreen = () => {
   const navigation = useNavigation<RootStackScreenProps<'Login'>['navigation']>();
@@ -11,8 +11,6 @@ export const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Login logic would go here
-    // For now, just navigate to ChatRoom on success
     navigation.navigate('ChatRoom');
   };
 

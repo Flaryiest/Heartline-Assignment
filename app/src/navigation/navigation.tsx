@@ -7,7 +7,7 @@ import { HomeScreen } from '~/screens/HomeScreen';
 import { LoginScreen } from '~/screens/LoginScreen';
 import { RegisterScreen } from '~/screens/RegisterScreen';
 
-import { RootStackParamList } from './types';
+import { RootStackParamList } from '../types/types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

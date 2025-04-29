@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { RootStackScreenProps } from '~/navigation/types';
+import { RootStackScreenProps } from '~/types/types';
 
 export const RegisterScreen = () => {
   const navigation = useNavigation<RootStackScreenProps<'Register'>['navigation']>();
@@ -12,8 +12,6 @@ export const RegisterScreen = () => {
   const [password, setPassword] = useState('');
 
   const handleRegister = () => {
-    // Registration logic would go here
-    // For now, just navigate to login on success
     navigation.navigate('Login');
   };
 
