@@ -1,5 +1,3 @@
-// This file should be moved to src/components
-
 import { Text, View } from 'react-native';
 
 export const EditScreenInfo = ({ path }: { path: string }) => {

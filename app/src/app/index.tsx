@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { Navigation } from './src/navigation';
-import './src/styles/global.css';
+import { Navigation } from '../navigation';
+import '../styles/global.css';
 
 export default function App() {
   return (
