@@ -87,3 +87,47 @@ func getProfileHandler(db *sql.DB) gin.HandlerFunc {
 		})
 	}
 }
+
+func updateProfileHandler(db *sql.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userID, _ := c.Get("userID")
+
+		var req UpdateProfileRequest
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+			return
+		}
+
+		response := gin.H{}
+
+		if req.Name != "" {
+			if err := UpdateUser(db, userID.(int), req.Name); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update name"})
+				return
+			}
+			response["name_updated"] = true
+		}
+
+		if req.Password != "" {
+			hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process password"})
+				return
+			}
+
+			if err := UpdateUserPassword(db, userID.(int), string(hashedPassword)); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
+				return
+			}
+			response["password_updated"] = true
+		}
+
+		if len(response) == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No valid fields provided for update"})
+			return
+		}
+
+		response["message"] = "Profile updated successfully"
+		c.JSON(http.StatusOK, response)
+	}
+}

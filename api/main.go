@@ -19,11 +19,12 @@ func main() {
 
 	router.POST("/register", registerHandler(db))
 	router.POST("/login", loginHandler(db))
-	authorized := router.Group("/")
 
+	authorized := router.Group("/")
 	authorized.Use(authMiddleware())
 	{
 		authorized.GET("/profile", getProfileHandler(db))
+		authorized.PATCH("/profile", updateProfileHandler(db))
 	}
 
 	router.Run(":8080")
