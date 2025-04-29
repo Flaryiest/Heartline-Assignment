@@ -13,8 +13,8 @@ npm start
 
 ### Backend (Go)
 Install dependencies  
-
+Requires a .env with DATABASE_URL and SECRET_KEY  
 ```bash
 cd api
 modd
-```
+```   
