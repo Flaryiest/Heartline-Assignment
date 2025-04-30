@@ -46,15 +46,15 @@ func loginHandler(db *sql.DB) gin.HandlerFunc {
 
 		user, err := GetUserByEmail(db, req.Email)
 		if err != nil {
-			log.Printf("GetUserByEmail failed: %v", err)
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+			log.Printf("Get User failed: %v", err)
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "User does not exist"})
 			return
 		}
 
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 		if err != nil {
 			log.Printf("Password comparison failed: %v", err)
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect password"})
 			return
 		}
 
